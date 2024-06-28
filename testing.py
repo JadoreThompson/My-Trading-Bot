@@ -17,13 +17,15 @@ class MyStrat(Strategy):
         super().next()
         if self.signal1[-1] == 1.0:
             sl1 = self.data.Close[-1] * 1.02
-            tp1 = self.data.Close[-1] + (self.data.Close[-1] - sl1)
+            tp1 = self.data.Close[-1] - (self.data.Close[-1] - sl1)
             self .sell(tp=tp1, sl=sl1)
         elif self.signal1[-1] == 0.0:
             sl1 = self.data.Open[-1] * 0.98
             tp1 = self.data.Open[-1] + (self.data.Open[-1] - sl1)
             self.buy(sl=sl1, tp=tp1)
 
+
+df = df.iloc[1: 500]
 
 bt = Backtest(df, MyStrat, cash=100000)
 stats = bt.run()
